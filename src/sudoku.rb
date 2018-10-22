@@ -42,7 +42,13 @@ class Sudoku
   end
 
   def find_row_poss(row, col)
-    [1]
+    poss = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    @puzzle[row].each do |val|
+      unless val == '-'
+        poss = poss - [val]
+      end
+    end
+    poss
   end
 
   def find_col_poss(row, col)
@@ -63,13 +69,16 @@ end
 
 def read_input_puzzle_from_file(input_file)
   puzzle = []
-  File.open(input_file.chomp, "r") do |f|
+  if input_file == ''
+    input_file = 'puzzles/1.puzzle'
+  end
+  File.open(input_file, "r") do |f|
     line_count = 0
     f.each_line do |line|
       col = 0
       puzzle[line_count] = []
       line.split(' ').each do |element|
-        puzzle[line_count][col] = element
+        puzzle[line_count][col] = element.to_i
         col += 1
       end
       line_count += 1
@@ -81,7 +90,7 @@ end
 
 puts 'Please provide the puzzle file:'
 input_file = gets
-puz = read_input_puzzle_from_file(input_file)
+puz = read_input_puzzle_from_file(input_file.chomp)
 
 sud = Sudoku.new(puz)
 
