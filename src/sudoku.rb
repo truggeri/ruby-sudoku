@@ -6,7 +6,7 @@ class Sudoku
 
   def initialize(puz)
     @puzzle = puz
-    @possibilities = find_possibilities()
+    @possibilities = find_possibilities
   end
 
   def get_element(x, y)
@@ -38,29 +38,63 @@ class Sudoku
   end
 
   def find_element_possibilities(row, col)
-    find_row_poss(row, col) | find_col_poss(row, col) | find_square_poss(row, col)
+    if @puzzle[row][col] == 0
+      find_row_poss(row, col) & find_col_poss(row, col) & find_square_poss(row, col)
+    else
+      [@puzzle[row][col]]
+    end
   end
 
   def find_row_poss(row, col)
     poss = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     @puzzle[row].each do |val|
-      unless val == '-'
+      unless val == 0
         poss = poss - [val]
       end
+    end
+    if row==0 and col==0
+      puts poss
+      puts '---'
     end
     poss
   end
 
   def find_col_poss(row, col)
-    [1, 2]
+    poss = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    [0, 1, 2, 3, 4, 5, 6, 7, 8].each do |r|
+      val = @puzzle[r][col]
+      unless val == 0
+        poss = poss - [val]
+      end
+    end
+    if row==0 and col==0
+      puts poss
+      puts '---'
+    end
+    poss
   end
 
   def find_square_poss(row, col)
-    [2, 3]
+    poss = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    row_offset = row/3 * 3
+    col_offset = col/3 * 3
+    [0, 1, 2].each do |r|
+      [0, 1, 2].each do |c|
+        val = @puzzle[r + row_offset][c + col_offset]
+        unless val == 0
+          poss = poss - [val]
+        end
+      end
+    end
+    if row==0 and col==0
+      puts poss
+      puts '---'
+    end
+    poss
   end
 
-  def print_poss(row, col)
-    puts @possibilities[row][col]
+  def get_poss(row, col)
+    @possibilities[row][col]
   end
 
 end
@@ -94,8 +128,21 @@ puz = read_input_puzzle_from_file(input_file.chomp)
 
 sud = Sudoku.new(puz)
 
-puts sud.get_element(4,8)
-sud.set_element(1,1,9)
-puts sud.get_element(1,1)
+# puts sud.get_element(4,8)
+# sud.set_element(1,1,9)
+# puts sud.get_element(1,1)
 
-puts sud.print_poss(0,0)
+# sud.print_poss(0,0)
+
+[0,1,2,3,4,5,6,7,8].each do |r|
+  line = ""
+  [0,1,2,3,4,5,6,7,8].each do |c|
+    pos = sud.get_poss(r, c)
+    if pos == nil or pos.length==0
+      line = "#{line} -"
+    else
+      line = "#{line} (#{r}#{c})#{sud.get_poss(r, c)}"
+    end
+  end
+  puts line
+end
