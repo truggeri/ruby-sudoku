@@ -26,7 +26,7 @@ class Sudoku
 
   def find_element_possibilities(row, col)
     if @puzzle[row][col] == 0
-      find_row_poss(row, col) & find_col_poss(row, col) & find_square_poss(row, col)
+      find_row_poss(row, col) & find_col_poss(row, col) & find_cube_poss(row, col)
     else
       [@puzzle[row][col]]
     end
@@ -67,7 +67,7 @@ class Sudoku
     pos
   end
 
-  def find_square_poss(row, col)
+  def find_cube_poss(row, col)
     poss =* (1..9)
     row_offset = row/3 * 3
     col_offset = col/3 * 3
