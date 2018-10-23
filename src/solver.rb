@@ -36,47 +36,20 @@ def find_only_one_poss(puzzle)
   overall_flag
 end
 
-def find_only_poss_in_row(puzzle)
+def find_only_poss_in_dimension(puzzle, dimension='row')
   (0..8).each do |r|
     (0..8).each do |c|
       next if puzzle.get_element(r, c) > 0
       pos = puzzle.get_poss(r, c)
-      options = pos - puzzle.find_other_row_poss(r, c)
+      others = case dimension
+        when 'col' then puzzle.find_other_col_poss(r, c)
+        when 'cube' then puzzle.find_other_cube_poss(r, c)
+        else puzzle.find_other_row_poss(r, c)
+        end
+      options = pos - others
       if options.length == 1
         puzzle.set_element(r, c, options[0])
-        puts "(#{r}, #{c} - row, #{options[0]})"
-        return true
-      end
-    end
-  end
-  false
-end
-
-def find_only_poss_in_col(puzzle)
-  (0..8).each do |r|
-    (0..8).each do |c|
-      next if puzzle.get_element(r, c) > 0
-      pos = puzzle.get_poss(r, c)
-      options = pos - puzzle.find_other_col_poss(r, c)
-      if options.length == 1
-        puzzle.set_element(r, c, options[0])
-        puts "(#{r}, #{c} - col, #{options[0]})"
-        return true
-      end
-    end
-  end
-  false
-end
-
-def find_only_poss_in_cube(puzzle)
-  (0..8).each do |r|
-    (0..8).each do |c|
-      next if puzzle.get_element(r, c) > 0
-      pos = puzzle.get_poss(r, c)
-      options = pos - puzzle.find_other_cube_poss(r, c)
-      if options.length == 1
-        puzzle.set_element(r, c, options[0])
-        puts "(#{r}, #{c} - cube, #{options[0]})"
+        puts "(#{r}, #{c} - #{dimension}, #{options[0]})"
         return true
       end
     end
@@ -97,9 +70,9 @@ until stuck
   loops += 1
   puts "=> iteration #{loops}"
   find_only_one_poss(puzzle)
-  next if find_only_poss_in_row(puzzle)
-  next if find_only_poss_in_col(puzzle)
-  next if find_only_poss_in_cube(puzzle)
+  next if find_only_poss_in_dimension(puzzle, 'row')
+  next if find_only_poss_in_dimension(puzzle, 'col')
+  next if find_only_poss_in_dimension(puzzle, 'cube')
   stuck = true
 end
 
