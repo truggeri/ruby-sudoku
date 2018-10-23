@@ -40,6 +40,15 @@ class Sudoku
     poss
   end
 
+  def find_other_row_poss(row, col)
+    pos = []
+    (0..8).each do |c|
+      next if c == col
+      pos = pos | find_element_possibilities(row, c)
+    end
+    pos
+  end
+
   def find_col_poss(row, col)
     poss =* (1..9)
     (0..8).each do |r|
@@ -47,6 +56,15 @@ class Sudoku
       poss = poss - [val] unless val == 0
     end
     poss
+  end
+
+  def find_other_col_poss(row, col)
+    pos = []
+    (0..8).each do |r|
+      next if r == row
+      pos = pos | find_element_possibilities(r, col)
+    end
+    pos
   end
 
   def find_square_poss(row, col)
