@@ -2,9 +2,9 @@ require './src/file_input.rb'
 require './src/sudoku.rb'
 
 def print_puzzle_poss(puzzle)
-  [0,1,2,3,4,5,6,7,8].each do |r|
+  (0..8).each do |r|
     line = ""
-    [0,1,2,3,4,5,6,7,8].each do |c|
+    (0..8).each do |c|
       pos = puzzle.get_poss(r, c)
       if pos == nil or pos.length == 0
         line = "#{line} -"
@@ -28,8 +28,8 @@ print_puzzle_poss(puzzle)
 no_more_easy_flag = false
 until no_more_easy_flag
   no_more_easy_flag = true
-  [0,1,2,3,4,5,6,7,8].each do |r|
-    [0,1,2,3,4,5,6,7,8].each do |c|
+  (0..8).each do |r|
+    (0..8).each do |c|
       if puzzle.get_element(r, c) > 0
         next
       end
