@@ -33,7 +33,7 @@ class Sudoku
   end
 
   def find_row_poss(row, col)
-    poss = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    poss =* (1..9)
     @puzzle[row].each do |val|
       poss = poss - [val] unless val == 0
     end
@@ -41,8 +41,8 @@ class Sudoku
   end
 
   def find_col_poss(row, col)
-    poss = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    [0, 1, 2, 3, 4, 5, 6, 7, 8].each do |r|
+    poss =* (1..9)
+    (0..8).each do |r|
       val = @puzzle[r][col]
       poss = poss - [val] unless val == 0
     end
@@ -50,11 +50,11 @@ class Sudoku
   end
 
   def find_square_poss(row, col)
-    poss = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    poss =* (1..9)
     row_offset = row/3 * 3
     col_offset = col/3 * 3
-    [0, 1, 2].each do |r|
-      [0, 1, 2].each do |c|
+    (0..2).each do |r|
+      (0..2).each do |c|
         val = @puzzle[r + row_offset][c + col_offset]
         poss = poss - [val] unless val == 0
       end
