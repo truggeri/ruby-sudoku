@@ -48,9 +48,7 @@ class Sudoku
   def find_row_poss(row, col)
     poss = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     @puzzle[row].each do |val|
-      unless val == 0
-        poss = poss - [val]
-      end
+      poss = poss - [val] unless val == 0
     end
     if row==0 and col==0
       puts poss
@@ -63,9 +61,7 @@ class Sudoku
     poss = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     [0, 1, 2, 3, 4, 5, 6, 7, 8].each do |r|
       val = @puzzle[r][col]
-      unless val == 0
-        poss = poss - [val]
-      end
+      poss = poss - [val] unless val == 0
     end
     if row==0 and col==0
       puts poss
@@ -81,9 +77,7 @@ class Sudoku
     [0, 1, 2].each do |r|
       [0, 1, 2].each do |c|
         val = @puzzle[r + row_offset][c + col_offset]
-        unless val == 0
-          poss = poss - [val]
-        end
+        poss = poss - [val] unless val == 0
       end
     end
     if row==0 and col==0
@@ -103,9 +97,7 @@ end
 
 def read_input_puzzle_from_file(input_file)
   puzzle = []
-  if input_file == ''
-    input_file = 'puzzles/1.puzzle'
-  end
+  input_file = 'puzzles/1.puzzle' if input_file == ''
   File.open(input_file, "r") do |f|
     line_count = 0
     f.each_line do |line|
