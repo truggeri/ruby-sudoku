@@ -5,11 +5,14 @@ get '/ok' do
 end
 
 post '/solve' do
+  data = {}
   begin
     request.body.rewind
     data = JSON.parse request.body.read
-    data['puzzle']
   rescue
-    [400, 'Failure to parse request.']
+    return [400, 'Failure to parse request.']
   end
+  return [412, 'Request must have "puzzle" key.'] unless data.has_key?('puzzle') and not data['puzzle'].empty?
+  
+  
 end
