@@ -6,7 +6,7 @@ def print_puzzle_poss(puzzle)
     line = ""
     [0,1,2,3,4,5,6,7,8].each do |c|
       pos = puzzle.get_poss(r, c)
-      if pos == nil or pos.length==0
+      if pos == nil or pos.length == 0
         line = "#{line} -"
       else
         line = "#{line} #{puzzle.get_poss(r, c)}"
@@ -30,14 +30,16 @@ until no_more_easy_flag
   no_more_easy_flag = true
   [0,1,2,3,4,5,6,7,8].each do |r|
     [0,1,2,3,4,5,6,7,8].each do |c|
+      if puzzle.get_element(r, c) > 0
+        next
+      end
       pos = puzzle.get_poss(r, c)
-      if pos.length == 1
+      if pos != nil and pos.length == 1
         puzzle.set_element(r, c, pos[0])
-        no_more_easy_flag = true #false
+        no_more_easy_flag = false
       end
     end
   end
-  puts 'test'
 end
 
 puzzle.print

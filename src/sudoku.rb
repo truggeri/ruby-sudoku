@@ -9,30 +9,6 @@ class Sudoku
     @possibilities = find_possibilities
   end
 
-  def get_element(x, y)
-    @puzzle[x][y]
-  end
-
-  def set_element(x, y, val)
-    begin
-      if @puzzle[x][y] != '-'
-        @puzzle[x][y] = val
-      end
-    rescue
-    end
-  end
-
-  def print()
-    [0,1,2,3,4,5,6,7,8].each do |r|
-      line = ""
-      [0,1,2,3,4,5,6,7,8].each do |c|
-        elem = get_element(r, c)
-        line = "#{line} #{elem > 0 ? elem : '-'}"
-      end
-      puts line
-    end
-  end
-
   def find_possibilities
     row = 0
     poss = []
@@ -86,8 +62,48 @@ class Sudoku
     poss
   end
 
+  def get_element(x, y)
+    @puzzle[x][y]
+  end
+
+  def set_element(row, col, val)
+    begin
+      @puzzle[row][col] = val unless @puzzle[row][col] > 0
+    rescue
+    end
+    update_possibilities(row, col)
+  end
+
+  def update_possibilities(row, col)
+    (0..8).each do |r|
+      @possibilities[r][col] = find_element_possibilities(r, col)
+    end
+
+    (0..8).each do |c|
+      @possibilities[row][c] = find_element_possibilities(row, c)
+    end
+
+    row_offset = row/3 * 3
+    col_offset = col/3 * 3
+    (0..2).each do |r|
+      (0..2).each do |c|
+        @possibilities[r][c] = find_element_possibilities(r, c)
+      end
+    end
+  end
+
   def get_poss(row, col)
     @possibilities[row][col]
   end
 
+  def print()
+    [0,1,2,3,4,5,6,7,8].each do |r|
+      line = ""
+      [0,1,2,3,4,5,6,7,8].each do |c|
+        elem = get_element(r, c)
+        line = "#{line} #{elem > 0 ? elem : '-'}"
+      end
+      puts line
+    end
+  end
 end
