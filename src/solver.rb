@@ -9,7 +9,7 @@ def print_puzzle_poss(puzzle)
       if pos == nil or pos.length==0
         line = "#{line} -"
       else
-        line = "#{line} (#{r}#{c})#{puzzle.get_poss(r, c)}"
+        line = "#{line} #{puzzle.get_poss(r, c)}"
       end
     end
     puts line
@@ -22,4 +22,22 @@ input = read_input_puzzle_from_file(input_file.chomp)
 
 puzzle = Sudoku.new(input)
 
+puts '--- Possiblilites ---'
 print_puzzle_poss(puzzle)
+
+no_more_easy_flag = false
+until no_more_easy_flag
+  no_more_easy_flag = true
+  [0,1,2,3,4,5,6,7,8].each do |r|
+    [0,1,2,3,4,5,6,7,8].each do |c|
+      pos = puzzle.get_poss(r, c)
+      if pos.length == 1
+        puzzle.set_element(r, c, pos[0])
+        no_more_easy_flag = true #false
+      end
+    end
+  end
+  puts 'test'
+end
+
+puzzle.print
