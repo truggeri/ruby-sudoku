@@ -50,10 +50,6 @@ class Sudoku
     @puzzle[row].each do |val|
       poss = poss - [val] unless val == 0
     end
-    if row==0 and col==0
-      puts poss
-      puts '---'
-    end
     poss
   end
 
@@ -62,10 +58,6 @@ class Sudoku
     [0, 1, 2, 3, 4, 5, 6, 7, 8].each do |r|
       val = @puzzle[r][col]
       poss = poss - [val] unless val == 0
-    end
-    if row==0 and col==0
-      puts poss
-      puts '---'
     end
     poss
   end
@@ -79,10 +71,6 @@ class Sudoku
         val = @puzzle[r + row_offset][c + col_offset]
         poss = poss - [val] unless val == 0
       end
-    end
-    if row==0 and col==0
-      puts poss
-      puts '---'
     end
     poss
   end
