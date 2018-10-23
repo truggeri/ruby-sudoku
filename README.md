@@ -2,7 +2,7 @@
 
 The purpose of this project is to get a little practice with Ruby and the Ruby syntax. The idea is that this will serve as a sudoku solver that given a puzzel will return the solved puzzel.
 
-## The algorithm
+## Algorithm
 
 This section will describe the algorithm used to solve the puzzels. The basic idea is this.
 
@@ -15,4 +15,20 @@ This section will describe the algorithm used to solve the puzzels. The basic id
 
 ## Interface
 
-This section will descibe how to interface with the project. Ideally, I will include a web/HTTP api (using something like Sinatra), but that may be after the core of the application.
+This section will descibe how to interface with the project. Ideally, I will include a web/HTTP api (using something like [Sinatra](http://sinatrarb.com/)), but that may be after the core of the application.
+
+### Load from a file
+
+When the application starts, it will request the path to a file that contains a puzzle. The puzzle file should be nine lines long. Each line contains a space seperated list of entries. Each entry is either a number if given in the puzzle or a dash to indicate the space is blank.
+
+```bash
+- 3 8 2 - - - 4 5
+- 1 - 6 - 5 - - -
+5 - 7 - 8 - - - -
+3 - 1 - 6 2 - 7 -
+9 - - 5 - 7 - - 4
+- 4 - 8 3 - 6 - 2
+- - - - 2 - 3 - 8
+- - - 9 - 3 - 2 -
+2 7 - - - 8 4 9 -
+```
