@@ -68,21 +68,38 @@ def find_only_poss_in_col(puzzle)
   false
 end
 
+def find_only_poss_in_cube(puzzle)
+  (0..8).each do |r|
+    (0..8).each do |c|
+      next if puzzle.get_element(r, c) > 0
+      pos = puzzle.get_poss(r, c)
+      options = pos - puzzle.find_other_cube_poss(r, c)
+      if options.length == 1
+        puzzle.set_element(r, c, options[0])
+        puts "(#{r}, #{c} - cube, #{options[0]})"
+        return true
+      end
+    end
+  end
+  false
+end
+
 puts 'Please provide the puzzle file:'
 input_file = gets
 input = read_input_puzzle_from_file(input_file.chomp)
 
 puzzle = Sudoku.new(input)
+puzzle.print
 
 loops = 0
 stuck = false
 until stuck
-  puzzle.print
   loops += 1
   puts "=> iteration #{loops}"
   find_only_one_poss(puzzle)
   next if find_only_poss_in_row(puzzle)
   next if find_only_poss_in_col(puzzle)
+  next if find_only_poss_in_cube(puzzle)
   stuck = true
 end
 

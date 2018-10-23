@@ -80,6 +80,19 @@ class Sudoku
     poss
   end
 
+  def find_other_cube_poss(row, col)
+    pos = []
+    row_offset = row/3 * 3
+    col_offset = col/3 * 3
+    (0..2).each do |r|
+      (0..2).each do |c|
+        next if r + row_offset == row and c + col_offset == col
+        pos = pos | find_element_possibilities(r + row_offset, c + col_offset)
+      end
+    end
+    pos
+  end
+
   def get_element(x, y)
     @puzzle[x][y]
   end
