@@ -1,6 +1,6 @@
 def read_input_puzzle_from_file(input_file)
   puzzle = []
-  input_file = 'puzzles/1.puzzle' if input_file == ''
+  input_file = 'puzzles/2.puzzle' if input_file == ''
   File.open(input_file, "r") do |f|
     line_count = 0
     f.each_line do |line|
