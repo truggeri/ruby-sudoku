@@ -129,12 +129,14 @@ class Sudoku
 
   def print()
     (0..8).each do |r|
-      line = ""
+      line = "|"
+      line = "-------------------------\n|" if r % 3 == 0
       (0..8).each do |c|
         elem = get_element(r, c)
-        line = "#{line} #{elem > 0 ? elem : '-'}"
+        line = "#{line} #{elem > 0 ? elem : '-'}#{(c+1) % 3 == 0 ? ' |': ''}"
       end
       puts line
     end
+    puts "-------------------------\n"
   end
 end
