@@ -13,16 +13,13 @@ class Solver
     stuck = false
     until stuck
       loops += 1
-      puts "=> iteration #{loops}"
       find_only_one_poss(@puzzle)
       next if find_only_poss_in_dimension(@puzzle, :row)
       next if find_only_poss_in_dimension(@puzzle, :col)
       next if find_only_poss_in_dimension(@puzzle, :cube)
       stuck = true
     end
-
-    puts "--- #{loops} iterations"
-    puts @puzzle
+    @puzzle
   end
 
   def find_only_one_poss(puzzle)
