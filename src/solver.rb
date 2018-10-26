@@ -4,12 +4,11 @@ class Solver
 
   def initialize(input)
     @input = input
+    @puzzle = Sudoku.new(@input)
+    puts @puzzle
   end
 
   def solve
-    @puzzle = Sudoku.new(@input)
-    puts @puzzle
-
     loops = 0
     stuck = false
     until stuck
