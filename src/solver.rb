@@ -7,23 +7,23 @@ class Solver
   end
 
   def solve
-    puzzle = Sudoku.new(@input)
-    puts puzzle
+    @puzzle = Sudoku.new(@input)
+    puts @puzzle
 
     loops = 0
     stuck = false
     until stuck
       loops += 1
       puts "=> iteration #{loops}"
-      find_only_one_poss(puzzle)
-      next if find_only_poss_in_dimension(puzzle, 'row')
-      next if find_only_poss_in_dimension(puzzle, 'col')
-      next if find_only_poss_in_dimension(puzzle, 'cube')
+      find_only_one_poss(@puzzle)
+      next if find_only_poss_in_dimension(@puzzle, :row)
+      next if find_only_poss_in_dimension(@puzzle, :col)
+      next if find_only_poss_in_dimension(@puzzle, :cube)
       stuck = true
     end
 
     puts "--- #{loops} iterations"
-    puts puzzle
+    puts @puzzle
   end
 
   def print_puzzle_poss(puzzle)
@@ -61,14 +61,14 @@ class Solver
     overall_flag
   end
 
-  def find_only_poss_in_dimension(puzzle, dimension='row')
+  def find_only_poss_in_dimension(puzzle, dimension=:row)
     (0..8).each do |r|
       (0..8).each do |c|
         next if puzzle.get_element(r, c) > 0
         pos = puzzle.get_possibilities(r, c)
         others = case dimension
-          when 'col' then puzzle.find_other_col_poss(r, c)
-          when 'cube' then puzzle.find_other_cube_poss(r, c)
+          when :col then puzzle.find_other_col_poss(r, c)
+          when :cube then puzzle.find_other_cube_poss(r, c)
           else puzzle.find_other_row_poss(r, c)
           end
         options = pos - others
