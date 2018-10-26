@@ -26,21 +26,6 @@ class Solver
     puts @puzzle
   end
 
-  def print_puzzle_poss(puzzle)
-    (0..8).each do |r|
-      line = ""
-      (0..8).each do |c|
-        pos = puzzle.get_possibilities(r, c)
-        if pos == nil or pos.length == 0
-          line = "#{line} -"
-        else
-          line = "#{line} #{puzzle.get_possibilities(r, c)}"
-        end
-      end
-      puts line
-    end
-  end
-
   def find_only_one_poss(puzzle)
     overall_flag = false
     no_more_easy_flag = false
