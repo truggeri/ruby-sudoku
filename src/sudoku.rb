@@ -133,16 +133,21 @@ class Sudoku
     @possibilities[row][col]
   end
 
-  def print()
+  def to_s
+    output = ""
     (0..8).each do |r|
+      output = append_line(output) if r % 3 == 0
       line = "|"
-      line = "-------------------------\n|" if r % 3 == 0
       (0..8).each do |c|
         elem = get_element(r, c)
         line = "#{line} #{elem > 0 ? elem : '-'}#{(c+1) % 3 == 0 ? ' |': ''}"
       end
-      puts line
+      output = "#{output}#{line}\n"
     end
-    puts "-------------------------\n"
+    output = append_line(output)
+  end
+
+  def append_line(text)
+    "#{text}-------------------------\n"
   end
 end

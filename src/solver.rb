@@ -8,7 +8,7 @@ class Solver
 
   def solve
     puzzle = Sudoku.new(@input)
-    puzzle.print
+    puts puzzle
 
     loops = 0
     stuck = false
@@ -23,7 +23,7 @@ class Solver
     end
 
     puts "--- #{loops} iterations"
-    puzzle.print
+    puts puzzle
   end
 
   def print_puzzle_poss(puzzle)
