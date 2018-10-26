@@ -1,7 +1,3 @@
-#
-#
-#
-
 class Sudoku
 
   def initialize(puz)
@@ -41,12 +37,12 @@ class Sudoku
   end
 
   def find_other_row_poss(row, col)
-    pos = []
+    poss = []
     (0..8).each do |c|
       next if c == col
-      pos = pos | find_element_possibilities(row, c)
+      poss = poss | find_element_possibilities(row, c)
     end
-    pos
+    poss
   end
 
   def find_col_poss(row, col)
@@ -59,12 +55,12 @@ class Sudoku
   end
 
   def find_other_col_poss(row, col)
-    pos = []
+    poss = []
     (0..8).each do |r|
       next if r == row
-      pos = pos | find_element_possibilities(r, col)
+      poss = poss | find_element_possibilities(r, col)
     end
-    pos
+    poss
   end
 
   def find_cube_poss(row, col)
@@ -81,16 +77,16 @@ class Sudoku
   end
 
   def find_other_cube_poss(row, col)
-    pos = []
+    poss = []
     row_offset = row/3 * 3
     col_offset = col/3 * 3
     (0..2).each do |r|
       (0..2).each do |c|
         next if r + row_offset == row and c + col_offset == col
-        pos = pos | find_element_possibilities(r + row_offset, c + col_offset)
+        poss = poss | find_element_possibilities(r + row_offset, c + col_offset)
       end
     end
-    pos
+    poss
   end
 
   def get_element(x, y)
@@ -106,14 +102,24 @@ class Sudoku
   end
 
   def update_possibilities(row, col)
-    (0..8).each do |r|
-      @possibilities[r][col] = find_element_possibilities(r, col)
-    end
+    update_possibilities_across_row(row)
+    update_possibilities_across_col(col)
+    update_possibilities_across_cube(row, col)
+  end
 
+  def update_possibilities_across_row(row)
     (0..8).each do |c|
       @possibilities[row][c] = find_element_possibilities(row, c)
     end
+  end
 
+  def update_possibilities_across_col(col)
+    (0..8).each do |r|
+      @possibilities[r][col] = find_element_possibilities(r, col)
+    end
+  end
+
+  def update_possibilities_across_cube(row, col)
     row_offset = row/3 * 3
     col_offset = col/3 * 3
     (0..2).each do |r|
@@ -123,20 +129,25 @@ class Sudoku
     end
   end
 
-  def get_poss(row, col)
+  def get_possibilities(row, col)
     @possibilities[row][col]
   end
 
-  def print()
+  def to_s
+    output = ""
     (0..8).each do |r|
+      output = append_line(output) if r % 3 == 0
       line = "|"
-      line = "-------------------------\n|" if r % 3 == 0
       (0..8).each do |c|
         elem = get_element(r, c)
         line = "#{line} #{elem > 0 ? elem : '-'}#{(c+1) % 3 == 0 ? ' |': ''}"
       end
-      puts line
+      output = "#{output}#{line}\n"
     end
-    puts "-------------------------\n"
+    output = append_line(output)
+  end
+
+  def append_line(text)
+    "#{text}-------------------------\n"
   end
 end
