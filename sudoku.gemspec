@@ -1,11 +1,11 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "ruby-sudoku/version"
+require "sudoku/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "ruby-sudoku"
-  spec.version       = Ruby::Sudoku::VERSION
+  spec.name          = "sudoku"
+  spec.version       = Sudoku::VERSION
   spec.authors       = ["Thomas Ruggeri"]
   spec.email         = ["truggeri@gmail.com"]
 
