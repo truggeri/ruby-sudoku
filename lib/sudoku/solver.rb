@@ -5,7 +5,7 @@ module Sudoku
 
     def initialize(input)
       @input = input
-      @puzzle = Sudoku.new(@input)
+      @puzzle = Puzzle.new(@input)
       puts @puzzle
     end
 

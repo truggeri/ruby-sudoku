@@ -1,5 +1,5 @@
 module Sudoku
-  class Sudoku
+  class Puzzle
 
     def initialize(puz)
       @puzzle = puz
