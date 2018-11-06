@@ -1,5 +1,5 @@
 module Sudoku
-  require_relative 'sudoku'
+  require_relative 'puzzle'
 
   class Solver
 
