@@ -1,5 +1,7 @@
 module Sudoku
   class Puzzle
+    WIDTH = HEIGHT = 9
+    CUBE_WIDTH = CUBE_HEIGHT = 3
 
     def initialize(puz)
       @puzzle = puz
@@ -18,7 +20,7 @@ module Sudoku
     end
 
     def each_in_line(exclude: nil, &block)
-      (0..8).each do |e|
+      (0..WIDTH-1).each do |e|
         next if e == exclude
         block.call(e)
       end
@@ -27,8 +29,8 @@ module Sudoku
     def each_in_cube(row: nil, col: nil, &block)
       row_offset = row/3 * 3 unless row.nil?
       col_offset = col/3 * 3 unless col.nil?
-      (0..2).each do |r|
-        (0..2).each do |c|
+      (0..CUBE_WIDTH-1).each do |r|
+        (0..CUBE_HEIGHT-1).each do |c|
           next if r == row and c == col
           block.call(r + row_offset, c + col_offset)
         end
@@ -41,7 +43,7 @@ module Sudoku
     end
 
     def find_row_poss(row, col)
-      poss =* (1..9)
+      poss =* (1..WIDTH)
       each_in_line do |c|
         val = @puzzle[row][c]
         poss = poss - [val] unless val == 0
@@ -58,7 +60,7 @@ module Sudoku
     end
 
     def find_col_poss(row, col)
-      poss =* (1..9)
+      poss =* (1..WIDTH)
       each_in_line(exclude: row) do |r|
         val = @puzzle[r][col]
         poss = poss - [val] unless val == 0
@@ -75,7 +77,7 @@ module Sudoku
     end
 
     def find_cube_poss(row, col)
-      poss =* (1..9)
+      poss =* (1..WIDTH)
       each_in_cube(row: row, col: col) do |r, c|
         val = @puzzle[r][c]
         poss = poss - [val] unless val == 0
