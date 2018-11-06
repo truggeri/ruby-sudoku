@@ -30,10 +30,10 @@ module Sudoku
       end
     end
     
-    def each_cube(&block)
+    def each_in_cube(row_offset: 0, col_offset: 0, &block)
       (0..2).each do |r|
         (0..2).each do |c|
-          block.call(r, c)
+          block.call(r + row_offset, c + col_offset)
         end
       end
     end
@@ -83,7 +83,7 @@ module Sudoku
       poss =* (1..9)
       row_offset = row/3 * 3
       col_offset = col/3 * 3
-      each_cube do |r, c|
+      each_in_cube do |r, c|
         val = @puzzle[r + row_offset][c + col_offset]
         poss = poss - [val] unless val == 0
       end
@@ -94,7 +94,7 @@ module Sudoku
       poss = []
       row_offset = row/3 * 3
       col_offset = col/3 * 3
-      each_cube do |r, c|
+      each_in_cube do |r, c|
         next if r + row_offset == row and c + col_offset == col
         poss = poss | find_element_possibilities(r + row_offset, c + col_offset)
       end
@@ -134,7 +134,7 @@ module Sudoku
     def update_possibilities_across_cube(row, col)
       row_offset = row/3 * 3
       col_offset = col/3 * 3
-      each_cube do |r, c|
+      each_in_cube do |r, c|
         @possibilities[r][c] = find_element_possibilities(r, c)
       end
     end
