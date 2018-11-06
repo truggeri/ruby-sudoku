@@ -15,9 +15,10 @@ module Sudoku
       until stuck
         loops += 1
         find_only_one_poss(@puzzle)
+        next if find_only_poss_in_dimension(@puzzle, :cube)
         next if find_only_poss_in_dimension(@puzzle, :row)
         next if find_only_poss_in_dimension(@puzzle, :col)
-        next if find_only_poss_in_dimension(@puzzle, :cube)
+        
         stuck = true
       end
       @puzzle

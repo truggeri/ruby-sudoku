@@ -19,6 +19,14 @@ module Sudoku
       poss
     end
 
+    def each(&block)
+      self.each_in_line do |r|
+        self.each_in_line do |c|
+          block.call(r, c)
+        end
+      end
+    end
+
     def each_in_line(exclude: nil, &block)
       (0..WIDTH-1).each do |e|
         next if e == exclude
