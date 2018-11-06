@@ -1,6 +1,6 @@
 # Ruby Sudoku
 
-The purpose of this project is to get a little practice with Ruby and the Ruby syntax. The idea is that this will serve as a sudoku solver that given a puzzel will return the solved puzzel.
+The purpose of this project is to get a little practice with Ruby and the Ruby syntax. The idea is that this will serve as a sudoku solver that given a puzzle will return the solved puzzel.
 
 ## Algorithm
 
