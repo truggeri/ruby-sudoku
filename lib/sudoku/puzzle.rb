@@ -7,16 +7,12 @@ module Sudoku
     end
 
     def find_possibilities
-      row = 0
       poss = []
-      @puzzle.each do |line|
-        col = 0
-        poss[row] = []
-        line.each do |element|
-          poss[row][col] = find_element_possibilities(row, col)
-          col += 1
+      self.each_row do |r|
+        poss[r] = []
+        self.each_column do |c|
+          poss[r][c] = find_element_possibilities(r, c)
         end
-        row += 1
       end
       poss
     end
