@@ -8,26 +8,19 @@ module Sudoku
 
     def find_possibilities
       poss = []
-      self.each_row do |r|
+      self.each_in_line do |r|
         poss[r] = []
-        self.each_column do |c|
+        self.each_in_line do |c|
           poss[r][c] = find_element_possibilities(r, c)
         end
       end
       poss
     end
 
-    def each_row(exclude: nil, &block)
-      (0..8).each do |c|
-        next if c == exclude
-        block.call(c)
-      end
-    end
-
-    def each_column(exclude: nil, &block)
-      (0..8).each do |r|
-        next if r == exclude
-        block.call(r)
+    def each_in_line(exclude: nil, &block)
+      (0..8).each do |e|
+        next if e == exclude
+        block.call(e)
       end
     end
     
@@ -49,7 +42,7 @@ module Sudoku
 
     def find_row_poss(row, col)
       poss =* (1..9)
-      each_column do |c|
+      each_in_line do |c|
         val = @puzzle[row][c]
         poss = poss - [val] unless val == 0
       end
@@ -58,7 +51,7 @@ module Sudoku
 
     def find_other_row_poss(row, col)
       poss = []
-      each_column(exclude: col) do |c|
+      each_in_line(exclude: col) do |c|
         poss = poss | find_element_possibilities(row, c)
       end
       poss
@@ -66,7 +59,7 @@ module Sudoku
 
     def find_col_poss(row, col)
       poss =* (1..9)
-      each_row(exclude: row) do |r|
+      each_in_line(exclude: row) do |r|
         val = @puzzle[r][col]
         poss = poss - [val] unless val == 0
       end
@@ -75,7 +68,7 @@ module Sudoku
 
     def find_other_col_poss(row, col)
       poss = []
-      each_row(exclude: row) do |r|
+      each_in_line(exclude: row) do |r|
         poss = poss | find_element_possibilities(r, col)
       end
       poss
@@ -118,13 +111,13 @@ module Sudoku
     end
 
     def update_possibilities_across_row(row)
-      each_column do |c|
+      each_in_line do |c|
         @possibilities[row][c] = find_element_possibilities(row, c)
       end
     end
 
     def update_possibilities_across_col(col)
-      each_row do |r|
+      each_in_line do |r|
         @possibilities[r][col] = find_element_possibilities(r, col)
       end
     end
@@ -141,10 +134,10 @@ module Sudoku
 
     def to_s
       output = ""
-      each_row do |r|
+      each_in_line do |r|
         output = append_line(output) if r % 3 == 0
         line = "|"
-        each_column do |c|
+        each_in_line do |c|
           elem = get_element(r, c)
           line = "#{line} #{elem > 0 ? elem : '-'}#{(c+1) % 3 == 0 ? ' |': ''}"
         end
