@@ -14,26 +14,26 @@ module Sudoku
       stuck = false
       until stuck
         loops += 1
-        find_only_one_poss(@puzzle)
-        next if find_only_poss_in_dimension(@puzzle, :cube)
-        next if find_only_poss_in_dimension(@puzzle, :row)
-        next if find_only_poss_in_dimension(@puzzle, :col)
+        find_only_one_poss()
+        next if find_only_poss_in_dimension(:cube)
+        next if find_only_poss_in_dimension(:row)
+        next if find_only_poss_in_dimension(:col)
         
         stuck = true
       end
       @puzzle
     end
 
-    def find_only_one_poss(puzzle)
+    def find_only_one_poss
       overall_flag = false
       no_more_easy_flag = false
       until no_more_easy_flag
         no_more_easy_flag = true
-        puzzle.each do |r, c|
-          next if puzzle.get_element(r, c) > 0
-          pos = puzzle.get_possibilities(r, c)
+        @puzzle.each do |r, c|
+          next if @puzzle.get_element(r, c) > 0
+          pos = @puzzle.get_possibilities(r, c)
           if pos != nil and pos.length == 1
-            puzzle.set_element(r, c, pos[0])
+            @puzzle.set_element(r, c, pos[0])
             no_more_easy_flag = false
             overall_flag = true
           end
@@ -42,18 +42,18 @@ module Sudoku
       overall_flag
     end
 
-    def find_only_poss_in_dimension(puzzle, dimension=:row)
-      puzzle.each do |r, c|
-        next if puzzle.get_element(r, c) > 0
-        pos = puzzle.get_possibilities(r, c)
+    def find_only_poss_in_dimension(dimension=:row)
+      @puzzle.each do |r, c|
+        next if @puzzle.get_element(r, c) > 0
+        pos = @puzzle.get_possibilities(r, c)
         others = case dimension
-          when :col then puzzle.find_other_col_poss(r, c)
-          when :cube then puzzle.find_other_cube_poss(r, c)
-          else puzzle.find_other_row_poss(r, c)
+          when :col then @puzzle.find_other_col_poss(r, c)
+          when :cube then @puzzle.find_other_cube_poss(r, c)
+          else @puzzle.find_other_row_poss(r, c)
           end
         options = pos - others
         if options.length == 1
-          puzzle.set_element(r, c, options[0])
+          @puzzle.set_element(r, c, options[0])
           puts "(#{r}, #{c} - #{dimension}, #{options[0]})"
           return true
         end
