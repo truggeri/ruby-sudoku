@@ -1,4 +1,6 @@
-source 'https://rubygems.org' do
-  gem 'sinatra'
-  gem 'thin'
-end
+source "https://rubygems.org"
+
+git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+
+# Specify your gem's dependencies in sudoku.gemspec
+gemspec
