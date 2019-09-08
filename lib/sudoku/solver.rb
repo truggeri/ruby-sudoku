@@ -6,7 +6,7 @@ module Sudoku
     def initialize(input)
       @input = input
       @puzzle = Puzzle.new(@input)
-      puts @puzzle
+      # puts @puzzle
     end
 
     def solve
@@ -41,7 +41,7 @@ module Sudoku
         options = @puzzle.get_possibilities(r, c) - find_other_poss(dimension, r, c)
         if options.length == 1
           @puzzle.set_element(r, c, options[0])
-          puts "(#{r}, #{c} - #{dimension}, #{options[0]})"
+          # puts "(#{r}, #{c} - #{dimension}, #{options[0]})"
           return true
         end
       end
