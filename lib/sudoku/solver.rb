@@ -20,6 +20,10 @@ module Sudoku
       puzzle
     end
 
+    private
+
+    attr_reader :puzzle
+
     def find_only_option
       puzzle.each do |r, c|
         next if puzzle.get_element(r, c).positive?
@@ -54,9 +58,5 @@ module Sudoku
       else []
       end
     end
-
-    private
-
-    attr_reader :puzzle
   end
 end
