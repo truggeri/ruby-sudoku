@@ -3,17 +3,17 @@ module Sudoku
 
     attr_reader :possibilities, :value, :row, :col
 
-    def initialize(r, c, value = nil)
+    def initialize(row, col, value = nil)
       @value         = value
       @possibilities = value.nil? ? Array.new(9) { |i| i + 1 } : []
-      @row = r
-      @col = c
+      @row           = row
+      @col           = col
     end
 
-    def recalculate!(in_row, in_col, in_cube)
+    def remove_possibilities(possibilities)
       return nil if solved?
 
-      @possibilities -= (in_row + in_col + in_cube)
+      @possibilities -= possibilities
     end
 
     def solve(solution)

@@ -156,11 +156,11 @@ module Sudoku
 
     def update_possibilities(row, col)
       each_in_line do |i|
-        new_puzzle[row][i].recalculate!(row_values(row), column_values(i), cube_values(row, i)) unless i == col
-        new_puzzle[i][col].recalculate!(row_values(i), column_values(col), cube_values(i, col)) unless i == row
+        new_puzzle[row][i].remove_possibilities(row_values(row) + column_values(i) + cube_values(row, i)) unless i == col
+        new_puzzle[i][col].remove_possibilities(row_values(i) + column_values(col) + cube_values(i, col)) unless i == row
       end
       each_in_cube(row: row, col: col) do |r, c|
-        new_puzzle[r][c].recalculate!(row_values(r), column_values(c), cube_values(r, c)) unless r == row && c == col
+        new_puzzle[r][c].remove_possibilities(row_values(r) + column_values(c) + cube_values(r, c)) unless r == row && c == col
       end
     end
 
