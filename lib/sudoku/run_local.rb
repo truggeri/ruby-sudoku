@@ -15,8 +15,11 @@ module Sudoku
   end
 
   puts 'Please provide the puzzle file:'
-  input_file = gets.chomp || 'puzzles/3.puzzle'
+  input_file = gets.chomp
+  input = input_file == '' ? 'puzzles/1.puzzle' : input_file
 
-  puzzle_solver = Solver.new(read_input_puzzle_from_file(input_file))
-  puts puzzle_solver.solve
+  puzzle_solver = Solver.new(read_input_puzzle_from_file(input))
+  solution = puzzle_solver.solve
+
+  puts solution
 end

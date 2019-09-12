@@ -1,6 +1,5 @@
 module Sudoku
   require_relative 'puzzle'
-
   class Solver
 
     def initialize(input)
@@ -8,9 +7,12 @@ module Sudoku
     end
 
     def solve
+      steps = 0
       no_updates = false
       until no_updates
-        next if find_only_option
+        steps += 1
+        puts "Step #{steps}"
+        next if find_only_poss_in_dimension(:unique)
         next if find_only_poss_in_dimension(:cube)
         next if find_only_poss_in_dimension(:row)
         next if find_only_poss_in_dimension(:col)
@@ -24,26 +26,23 @@ module Sudoku
 
     attr_reader :puzzle
 
-    def find_only_option
-      puzzle.each do |r, c|
-        next if puzzle.get_element(r, c).positive?
-
-        pos = puzzle.get_possibilities(r, c)
-        if !pos.nil? && pos.length == 1
-          puzzle.set_element(r, c, pos[0])
-          return true
+    def print_diagnostic(step)
+      puts "==> Step #{step}"
+      puzzle.new_puzzle.each do |row|
+        row.each do |col|
+          puts "value: #{col.value}, poss: #{col.possibilities}" unless col.solved?
         end
       end
-      false
     end
 
     def find_only_poss_in_dimension(dimension = :row)
-      puzzle.each do |r, c|
-        next if puzzle.get_element(r, c).positive?
+      puzzle.each do |element|
+        next if element.solved?
 
-        options = puzzle.get_possibilities(r, c) - find_other_poss(dimension, r, c)
-        if options.length == 1
-          puzzle.set_element(r, c, options.first)
+        options = element.possibilities - find_other_poss(dimension, element.row, element.col)
+        if options.size == 1
+          puts "--> solved #{element.row},#{element.col}, with #{dimension} options; #{options}, element: #{element.possibilities}"
+          element.solve(options.first)
           return true
         end
       end

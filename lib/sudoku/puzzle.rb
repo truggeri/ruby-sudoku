@@ -1,17 +1,36 @@
 module Sudoku
   class Puzzle
-    WIDTH = HEIGHT = 9
+
+    require 'pry'
+    require_relative 'element'
+
+    WIDTH      = HEIGHT      = 9
     CUBE_WIDTH = CUBE_HEIGHT = 3
 
+    attr_reader :new_puzzle
+
     def initialize(puz)
-      @puzzle = puz
-      @possibilities = find_possibilities
+      input = puz.flatten
+      r = -1
+      @new_puzzle = Array.new(WIDTH) do
+        r += 1
+        c = -1
+        Array.new(HEIGHT) do
+          c += 1
+          value = input.shift
+          Element.new(r, c, value.positive? ? value : nil)
+        end
+      end
+
+      (0..WIDTH - 1).each do |r|
+        (0..HEIGHT - 1).each do |c|
+          new_puzzle[r][c].recalculate!(row_values(r), column_values(c), cube_values(r, c))
+        end
+      end
     end
 
     def find_element_possibilities(row, col)
-      return [@puzzle[row][col]] unless @puzzle[row][col].zero?
-
-      find_row_poss(row, col) & find_col_poss(row, col) & find_cube_poss(row, col)
+      new_puzzle[row][col].possibilities
     end
 
     def find_other_col_poss(row, col)
@@ -24,11 +43,15 @@ module Sudoku
 
     def find_other_cube_poss(row, col)
       poss = []
+      puts "other_cube_poss #{row},#{col}"
       each_in_cube(row: row, col: col) do |r, c|
         next if r == row && c == col
 
         poss |= find_element_possibilities(r, c)
+        puts "  poss #{r},#{c}: #{poss}"
       end
+      binding.pry
+
       poss
     end
 
@@ -41,25 +64,22 @@ module Sudoku
     end
 
     def get_element(row, col)
-      @puzzle[row][col]
+      new_puzzle[row][col].value
     end
 
     def get_possibilities(row, col)
-      @possibilities[row][col]
+      new_puzzle[row][col].possibilities
     end
 
     def set_element(row, col, val)
-      begin
-        @puzzle[row][col] = val unless @puzzle[row][col].positive?
-      rescue
-      end
+      new_puzzle[row][col].solve(val)
       update_possibilities(row, col)
     end
 
     def each(&_block)
       each_in_line do |r|
         each_in_line do |c|
-          yield(r, c)
+          yield(new_puzzle[r][c])
         end
       end
     end
@@ -67,11 +87,11 @@ module Sudoku
     def to_s
       output = ''
       each_in_line do |r|
-        output = append_line(output) if r % 3 == 0
+        output = append_line(output) if (r % 3).zero?
         line = '|'
         each_in_line do |c|
           elem = get_element(r, c)
-          line = "#{line} #{elem.positive? ? elem : '-'}#{((c + 1) % 3).zero? ? ' |' : ''}"
+          line = "#{line} #{elem&.positive? ? elem : '-'}#{((c + 1) % 3).zero? ? ' |' : ''}"
         end
         output = "#{output}#{line}\n"
       end
@@ -79,6 +99,8 @@ module Sudoku
     end
 
     private
+
+    attr_reader :puzzle
 
     def find_possibilities
       poss = []
@@ -109,7 +131,7 @@ module Sudoku
     end
 
     def find_col_poss(row, col)
-      poss = *(1..WIDTH)
+      poss = *(1..HEIGHT)
       each_in_line(exclude: row) do |r|
         val = @puzzle[r][col]
         poss -= [val] unless val.zero?
@@ -140,12 +162,32 @@ module Sudoku
 
     def update_possibilities(row, col)
       each_in_line do |i|
-        @possibilities[row][i] = find_element_possibilities(row, i) unless i == col
-        @possibilities[i][col] = find_element_possibilities(i, col) unless i == row
+        new_puzzle[row][i].recalculate!(row_values(row), column_values(i), cube_values(row, i)) unless i == col
+        new_puzzle[i][col].recalculate!(row_values(i), column_values(col), cube_values(i, col)) unless i == row
       end
       each_in_cube(row: row, col: col) do |r, c|
-        @possibilities[r][c] = find_element_possibilities(r, c)
+        new_puzzle[r][c].recalculate!(row_values(r), column_values(c), cube_values(r, c)) unless r == row && c == col
       end
+    end
+
+    def row_values(row)
+      new_puzzle[row].map(&:value).compact
+    end
+
+    def column_values(col)
+      values = []
+      each_in_line do |r|
+        values << new_puzzle[r][col]&.value
+      end
+      values.compact
+    end
+
+    def cube_values(row, col)
+      values = []
+      each_in_cube(row: row, col: col) do |r, c|
+        values << new_puzzle[r][c]&.value
+      end
+      values.compact
     end
 
     def append_line(text)
