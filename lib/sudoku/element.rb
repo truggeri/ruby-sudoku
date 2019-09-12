@@ -1,6 +1,5 @@
 module Sudoku
   class Element
-    require 'pry'
 
     attr_reader :possibilities, :value, :row, :col
 
@@ -11,10 +10,10 @@ module Sudoku
       @col = c
     end
 
-    def recalculate!(row, col, cube)
+    def recalculate!(in_row, in_col, in_cube)
       return nil if solved?
 
-      @possibilities -= (row + col + cube)
+      @possibilities -= (in_row + in_col + in_cube)
     end
 
     def solve(solution)

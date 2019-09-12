@@ -1,9 +1,7 @@
+require_relative 'element'
+
 module Sudoku
   class Puzzle
-
-    require 'pry'
-    require_relative 'element'
-
     WIDTH      = HEIGHT      = 9
     CUBE_WIDTH = CUBE_HEIGHT = 3
 
@@ -43,15 +41,11 @@ module Sudoku
 
     def find_other_cube_poss(row, col)
       poss = []
-      puts "other_cube_poss #{row},#{col}"
       each_in_cube(row: row, col: col) do |r, c|
         next if r == row && c == col
 
         poss |= find_element_possibilities(r, c)
-        puts "  poss #{r},#{c}: #{poss}"
       end
-      binding.pry
-
       poss
     end
 

@@ -1,5 +1,6 @@
+require_relative 'puzzle'
+
 module Sudoku
-  require_relative 'puzzle'
   class Solver
 
     def initialize(input)
@@ -11,7 +12,6 @@ module Sudoku
       no_updates = false
       until no_updates
         steps += 1
-        puts "Step #{steps}"
         next if find_only_poss_in_dimension(:unique)
         next if find_only_poss_in_dimension(:cube)
         next if find_only_poss_in_dimension(:row)
@@ -41,8 +41,7 @@ module Sudoku
 
         options = element.possibilities - find_other_poss(dimension, element.row, element.col)
         if options.size == 1
-          puts "--> solved #{element.row},#{element.col}, with #{dimension} options; #{options}, element: #{element.possibilities}"
-          element.solve(options.first)
+          puzzle.set_element(element.row, element.col, options.first)
           return true
         end
       end
