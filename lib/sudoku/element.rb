@@ -11,14 +11,17 @@ module Sudoku
     end
 
     def remove_possibilities(possibilities)
-      return nil if solved?
+      return nil if solved? || possibilities.empty?
 
       @possibilities -= possibilities
     end
 
     def solve(solution)
-      @value = solution unless solved?
+      return nil if solved? || !possibilities.include?(solution)
+
+      @value = solution
       @possibilities = []
+      value
     end
 
     def solved?
