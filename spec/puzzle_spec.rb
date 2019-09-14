@@ -66,5 +66,11 @@ RSpec.describe Sudoku::Puzzle do
       klass.each { counter += 1 }
       expect(counter).to eq(Sudoku::Puzzle::WIDTH.pow(2))
     end
+
+    it "yields Sudoku::Element instances" do
+      result_class = nil
+      klass.each { |elem| result_class = elem.class }
+      expect(result_class).to eq(Sudoku::Element)
+    end
   end
 end
