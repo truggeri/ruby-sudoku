@@ -12,3 +12,16 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+def read_puzzle_from_fixture(file)
+  puzzle = []
+  File.open(file, 'r') do |f|
+    f.each_line do |line|
+      puzzle.push([])
+      line.split(' ').each do |element|
+        puzzle.last.push(element.to_i)
+      end
+    end
+  end
+  puzzle.flatten
+end

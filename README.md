@@ -1,6 +1,16 @@
 # Ruby Sudoku
 
-The purpose of this project is to get a little practice with Ruby and the Ruby syntax. The idea is that this will serve as a sudoku solver that given a puzzle will return the solved puzzel.
+The purpose of this project is to get a little practice with Ruby and the Ruby syntax. The idea is that this will serve as a sudoku solver.
+
+## Running
+
+To run the project locally, install the dependencies using [Bundler](https://bundler.io/), then run with.
+
+```bash
+bundle install
+bundle exec ruby lib/sudoku/run_local.rb
+```
+
 
 ## Algorithm
 
@@ -13,9 +23,9 @@ This section will describe the algorithm used to solve the puzzels. The basic id
     3. Only space in the column with a possibility
     4. Only space in the block with a possibility
 
-## Interface
+## Input
 
-This section will descibe how to interface with the project. Ideally, I will include a web/HTTP api (using something like [Sinatra](http://sinatrarb.com/)), but that may be after the core of the application.
+This section will describe how to interface with the project. Ideally, I will include a web/HTTP api (using something like [Sinatra](http://sinatrarb.com/)), but that may be after the core of the application.
 
 ### Load from a file
 
@@ -31,4 +41,12 @@ When the application starts, it will request the path to a file that contains a 
 - - - - 2 - 3 - 8
 - - - 9 - 3 - 2 -
 2 7 - - - 8 4 9 -
+```
+
+## Tests
+
+There is a test suite written with [rspec](https://rspec.info/). Run it with,
+
+```bash
+bundle exec rspec ./spec/
 ```
