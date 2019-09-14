@@ -26,15 +26,6 @@ module Sudoku
 
     attr_reader :puzzle
 
-    def print_diagnostic(step)
-      puts "==> Step #{step}"
-      puzzle.new_puzzle.each do |row|
-        row.each do |col|
-          puts "value: #{col.value}, poss: #{col.possibilities}" unless col.solved?
-        end
-      end
-    end
-
     def find_only_poss_in_dimension(dimension = :row)
       puzzle.each do |element|
         next if element.solved?
