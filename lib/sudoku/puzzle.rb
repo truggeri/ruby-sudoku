@@ -5,8 +5,6 @@ module Sudoku
     WIDTH      = HEIGHT      = 9
     CUBE_WIDTH = CUBE_HEIGHT = 3
 
-    attr_reader :new_puzzle
-
     def initialize(input)
       r = -1
       @new_puzzle = Array.new(WIDTH) do
@@ -26,14 +24,10 @@ module Sudoku
       end
     end
 
-    def find_element_possibilities(row, col)
-      new_puzzle[row][col].possibilities
-    end
-
     def find_other_col_poss(row, col)
       poss = []
       each_in_line(exclude: row) do |r|
-        poss |= find_element_possibilities(r, col)
+        poss |= new_puzzle[r][col].possibilities
       end
       poss
     end
@@ -43,7 +37,7 @@ module Sudoku
       each_in_cube(row: row, col: col) do |r, c|
         next if r == row && c == col
 
-        poss |= find_element_possibilities(r, c)
+        poss |= new_puzzle[r][c].possibilities
       end
       poss
     end
@@ -51,17 +45,13 @@ module Sudoku
     def find_other_row_poss(row, col)
       poss = []
       each_in_line(exclude: col) do |c|
-        poss |= find_element_possibilities(row, c)
+        poss |= new_puzzle[row][c].possibilities
       end
       poss
     end
 
     def get_element(row, col)
       new_puzzle[row][col].value
-    end
-
-    def get_possibilities(row, col)
-      new_puzzle[row][col].possibilities
     end
 
     def set_element(row, col, val)
@@ -93,14 +83,14 @@ module Sudoku
 
     private
 
-    attr_reader :puzzle
+    attr_reader :puzzle, :new_puzzle
 
     def find_possibilities
       poss = []
       each_in_line do |r|
         poss[r] = []
         each_in_line do |c|
-          poss[r][c] = find_element_possibilities(r, c)
+          poss[r][c] = new_puzzle[r][c].possibilities
         end
       end
       poss

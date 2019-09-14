@@ -22,32 +22,49 @@ RSpec.describe Sudoku::Puzzle do
     end
   end
 
-  shared_examples "an element with possibilities" do
-    it "has expected value" do
-      expect(subject).to include(*expected_possibilities)
-      expect(subject).to eq([]) if expected_possibilities.size.zero?
+  describe "#set_element" do
+    subject { klass.set_element(row, col, val) }
+
+    context "when already set" do
+      let(:row) { 8 }
+      let(:col) { 7 }
+      let(:val) { 1 }
+
+      it "changes nothing" do
+        subject
+        expect(klass.get_element(row, col)).to eq(9)
+      end
+    end
+
+    context "when element not set" do
+      let(:row) { 0 }
+      let(:col) { 0 }
+
+      context "when value provided is valid" do
+        let(:val) { 6 }
+
+        it "becomes value" do
+          subject
+          expect(klass.get_element(row, col)).to eq(val)
+        end
+      end
+
+      context "when value provided is not valid" do
+        let(:val) { 8 }
+
+        it "does not become value" do
+          subject
+          expect(klass.get_element(row, col)).to eq(nil)
+        end
+      end
     end
   end
 
-  describe "#find_element_possibilities" do
-    subject { klass.find_element_possibilities(row, col) }
-
-    it_behaves_like "an element with possibilities" do
-      let(:row) { 1 }
-      let(:col) { 2 }
-      let(:expected_possibilities) { [2, 4, 9] }
-    end
-
-    it_behaves_like "an element with possibilities" do
-      let(:row) { 6 }
-      let(:col) { 7 }
-      let(:expected_possibilities) { [1, 5, 6] }
-    end
-
-    it_behaves_like "an element with possibilities" do
-      let(:row) { 4 }
-      let(:col) { 3 }
-      let(:expected_possibilities) { [] }
+  describe "#each" do
+    it "iterates WIDTH^2 times" do
+      counter = 0
+      klass.each { counter += 1 }
+      expect(counter).to eq(Sudoku::Puzzle::WIDTH.pow(2))
     end
   end
 end
