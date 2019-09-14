@@ -5,19 +5,6 @@ RSpec.describe Sudoku do
     expect(Sudoku::VERSION).not_to be nil
   end
 
-  def read_puzzle_from_fixture(file)
-    puzzle = []
-    File.open(file, 'r') do |f|
-      f.each_line do |line|
-        puzzle.push([])
-        line.split(' ').each do |element|
-          puzzle.last.push(element.to_i)
-        end
-      end
-    end
-    puzzle
-  end
-
   context 'when using a Sudoku::Solver' do
     let(:puzzle) { read_puzzle_from_fixture(filename) }
     let(:solver) { Sudoku::Solver.new(puzzle) }

@@ -11,7 +11,7 @@ module Sudoku
         end
       end
     end
-    puzzle
+    puzzle.flatten
   end
 
   puts 'Please provide the puzzle file:'

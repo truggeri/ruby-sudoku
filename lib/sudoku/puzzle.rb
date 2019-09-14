@@ -7,8 +7,7 @@ module Sudoku
 
     attr_reader :new_puzzle
 
-    def initialize(puz)
-      input = puz.flatten
+    def initialize(input)
       r = -1
       @new_puzzle = Array.new(WIDTH) do
         r += 1
@@ -16,13 +15,13 @@ module Sudoku
         Array.new(HEIGHT) do
           c += 1
           value = input.shift
-          Element.new(r, c, value.positive? ? value : nil)
+          Element.new(r, c, value&.positive? ? value : nil)
         end
       end
 
       (0..WIDTH - 1).each do |r|
         (0..HEIGHT - 1).each do |c|
-          new_puzzle[r][c].recalculate!(row_values(r), column_values(c), cube_values(r, c))
+          new_puzzle[r][c].remove_possibilities(row_values(r) + column_values(c) + cube_values(r, c))
         end
       end
     end
