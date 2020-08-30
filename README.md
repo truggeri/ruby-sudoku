@@ -11,7 +11,6 @@ bundle install
 bundle exec ruby lib/sudoku/run_local.rb
 ```
 
-
 ## Algorithm
 
 This section will describe the algorithm used to solve the puzzels. The basic idea is this.

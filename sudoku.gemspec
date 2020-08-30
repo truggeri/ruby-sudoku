@@ -1,5 +1,4 @@
-
-lib = File.expand_path("../lib", __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "sudoku/version"
 
@@ -9,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Thomas Ruggeri"]
   spec.email         = ["truggeri@gmail.com"]
 
-  spec.summary       = %q{Sudoku puzzle solver written in Ruby.}
-  spec.description   = %q{This project is meant to be a small experiment with Ruby. The app is a sudoku solver.}
+  spec.summary       = "Sudoku puzzle solver written in Ruby."
+  spec.description   = "This project is meant to be a small experiment with Ruby. The app is a sudoku solver."
   spec.homepage      = "https://github.com/truggeri/ruby-sudoku"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -22,10 +21,11 @@ Gem::Specification.new do |spec|
       "public gem pushes."
   end
 
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
+  spec.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  spec.bindir                = "exe"
+  spec.executables           = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.require_paths         = ["lib"]
+  spec.required_ruby_version = "2.6.2"
 end

@@ -1,6 +1,5 @@
 module Sudoku
   class Element
-
     attr_reader :possibilities, :value, :row, :col
 
     def initialize(row, col, value = nil)
@@ -27,8 +26,5 @@ module Sudoku
     def solved?
       !value.nil?
     end
-
-    private
-
   end
 end

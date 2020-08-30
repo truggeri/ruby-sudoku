@@ -2,7 +2,6 @@ require_relative 'puzzle'
 
 module Sudoku
   class Solver
-
     def initialize(input)
       @puzzle = Puzzle.new(input)
     end

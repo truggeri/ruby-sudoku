@@ -1,19 +1,20 @@
 require_relative 'element'
 
 module Sudoku
+  # rubocop:disable Metrics/ClassLength
   class Puzzle
     WIDTH      = HEIGHT      = 9
     CUBE_WIDTH = CUBE_HEIGHT = 3
 
     def initialize(input)
-      r = -1
+      row = -1
       @new_puzzle = Array.new(WIDTH) do
-        r += 1
-        c = -1
+        row += 1
+        col = -1
         Array.new(HEIGHT) do
-          c += 1
+          col += 1
           value = input.shift
-          Element.new(r, c, value&.positive? ? value : nil)
+          Element.new(row, col, value&.positive? ? value : nil)
         end
       end
 
@@ -143,15 +144,23 @@ module Sudoku
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def update_possibilities(row, col)
       each_in_line do |i|
-        new_puzzle[row][i].remove_possibilities(row_values(row) + column_values(i) + cube_values(row, i)) unless i == col
-        new_puzzle[i][col].remove_possibilities(row_values(i) + column_values(col) + cube_values(i, col)) unless i == row
+        unless i == col
+          new_puzzle[row][i].remove_possibilities(row_values(row) + column_values(i) + cube_values(row, i))
+        end
+        unless i == row
+          new_puzzle[i][col].remove_possibilities(row_values(i) + column_values(col) + cube_values(i, col))
+        end
       end
       each_in_cube(row: row, col: col) do |r, c|
-        new_puzzle[r][c].remove_possibilities(row_values(r) + column_values(c) + cube_values(r, c)) unless r == row && c == col
+        unless r == row && c == col
+          new_puzzle[r][c].remove_possibilities(row_values(r) + column_values(c) + cube_values(r, c))
+        end
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def row_values(row)
       new_puzzle[row].map(&:value).compact
@@ -177,4 +186,5 @@ module Sudoku
       "#{text}-------------------------\n"
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end
