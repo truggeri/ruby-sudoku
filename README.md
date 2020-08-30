@@ -1,5 +1,7 @@
 # Ruby Sudoku
 
+![Build Badge](https://github.com/truggeri/ruby-sudoku/workflows/Ruby/badge.svg)
+
 The purpose of this project is to get a little practice with Ruby and the Ruby syntax. The idea is that this will serve as a sudoku solver.
 
 ## Running
