@@ -1,24 +1,30 @@
-name: Ruby
+# @see https://dev.to/smitjel/kicking-the-tires-on-github-actions-45g9
+# @see https://boringrails.com/articles/building-a-rails-ci-pipeline-with-github-actions/
 
-on:
+name: Test
+
+on: 
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+    branches: 
+      - main
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  lint:
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
-      uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6
-    - name: Install dependencies
-      run: bundle install
-    - name: Run tests
-      run: bundle exec rspec ./spec/
-    - name: Run linter
-      run: bundle exec rubocop -D
-
+        bundler-cache: true
+    - name: Setup gems
+      run: |
+        gem install bundler
+        bundle config set --local deployment 'true'
+        bundle config set --local with 'test'
+        bundle install --jobs 4 --retry 3
+    - name: Linter
+      run: |
+        bundle exec rubocop -D
+    - name: Test
+      run: |
+        bundle exec rspec ./spec
