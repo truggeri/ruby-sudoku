@@ -86,50 +86,12 @@ module Sudoku
 
     attr_reader :puzzle, :new_puzzle
 
-    def find_possibilities
-      poss = []
-      each_in_line do |r|
-        poss[r] = []
-        each_in_line do |c|
-          poss[r][c] = new_puzzle[r][c].possibilities
-        end
-      end
-      poss
-    end
-
     def each_in_line(exclude: nil, &_block)
       (0..WIDTH - 1).each do |e|
         next if e == exclude
 
         yield(e)
       end
-    end
-
-    def find_row_poss(row, _col)
-      poss = *(1..WIDTH)
-      each_in_line do |c|
-        val = @puzzle[row][c]
-        poss -= [val] unless val.zero?
-      end
-      poss
-    end
-
-    def find_col_poss(row, col)
-      poss = *(1..HEIGHT)
-      each_in_line(exclude: row) do |r|
-        val = @puzzle[r][col]
-        poss -= [val] unless val.zero?
-      end
-      poss
-    end
-
-    def find_cube_poss(row, col)
-      poss = *(1..WIDTH)
-      each_in_cube(row: row, col: col) do |r, c|
-        val = @puzzle[r][c]
-        poss -= [val] unless val.zero?
-      end
-      poss
     end
 
     def each_in_cube(row: nil, col: nil, &_block)

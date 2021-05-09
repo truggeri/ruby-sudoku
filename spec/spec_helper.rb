@@ -1,5 +1,9 @@
 require "bundler/setup"
 require "sudoku"
+require "simplecov"
+
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([SimpleCov::Formatter::HTMLFormatter])
+SimpleCov.start
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -18,7 +22,7 @@ def read_puzzle_from_fixture(file)
   File.open(file, 'r') do |f|
     f.each_line do |line|
       puzzle.push([])
-      line.split(' ').each do |element|
+      line.split.each do |element|
         puzzle.last.push(element.to_i)
       end
     end

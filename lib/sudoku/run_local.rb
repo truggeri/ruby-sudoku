@@ -6,7 +6,7 @@ module Sudoku
     File.open(input_file, 'r') do |f|
       f.each_line do |line|
         puzzle.push([])
-        line.split(' ').each do |element|
+        line.split.each do |element|
           puzzle.last.push(element.to_i)
         end
       end

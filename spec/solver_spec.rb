@@ -67,5 +67,26 @@ RSpec.describe Sudoku::Solver do
 -------------------------
 ")
     end
+
+    context "when input is '4.puzzle'" do
+      let(:filename) { 'puzzles/4.puzzle' }
+  
+      it 'gives correct solution' do
+        expect(subject.to_s).to eq("-------------------------
+| 8 4 7 | 9 2 5 | 3 6 1 |
+| 6 1 2 | 8 3 4 | 7 5 9 |
+| 3 5 9 | 6 7 1 | 2 4 8 |
+-------------------------
+| 4 7 1 | 5 6 2 | 8 9 3 |
+| 9 2 6 | 3 8 7 | 4 1 5 |
+| 5 8 3 | 1 4 9 | 6 7 2 |
+-------------------------
+| 2 9 4 | 7 5 8 | 1 3 6 |
+| 1 6 8 | 4 9 3 | 5 2 7 |
+| 7 3 5 | 2 1 6 | 9 8 4 |
+-------------------------
+")
+      end
+    end
   end
 end

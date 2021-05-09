@@ -1,8 +1,12 @@
 # Ruby Sudoku
 
-![Build Badge](https://github.com/truggeri/ruby-sudoku/workflows/Ruby/badge.svg)
+[![Test](https://github.com/truggeri/ruby-sudoku/actions/workflows/ruby.yml/badge.svg?branch=main)](https://github.com/truggeri/ruby-sudoku/actions/workflows/ruby.yml)
+![Coverage Badge](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
-The purpose of this project is to get a little practice with Ruby and the Ruby syntax. The idea is that this will serve as a sudoku solver.
+![Ruby Badge](https://img.shields.io/badge/-Ruby_3.0-81302f?style=flat&labelColor=9a1c19&logo=ruby&logoColor=white)
+![GHA Badge](https://img.shields.io/badge/-Github_Actions-4b93e6?style=flat&labelColor=2088FF&logo=github-actions&logoColor=white)
+
+The purpose of this project is to get a little practice with Ruby. The idea is that this will serve as a sudoku solver.
 
 ## Running
 
@@ -50,4 +54,10 @@ There is a test suite written with [rspec](https://rspec.info/). Run it with,
 
 ```bash
 bundle exec rspec ./spec/
+```
+
+### Linting
+
+```bash
+bundle exec rubocop -D
 ```
