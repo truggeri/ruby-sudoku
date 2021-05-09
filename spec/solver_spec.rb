@@ -70,7 +70,7 @@ RSpec.describe Sudoku::Solver do
 
     context "when input is '4.puzzle'" do
       let(:filename) { 'puzzles/4.puzzle' }
-  
+
       it 'gives correct solution' do
         expect(subject.to_s).to eq("-------------------------
 | 8 4 7 | 9 2 5 | 3 6 1 |

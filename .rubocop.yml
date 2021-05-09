@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - 'puzzles/**'
+    - 'vendor/**/*'
   DisplayCopNames: true
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true

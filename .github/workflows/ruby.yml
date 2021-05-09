@@ -8,7 +8,7 @@ on:
     branches: 
       - main
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
         bundle install --jobs 4 --retry 3
     - name: Linter
       run: |
-        bundle exec rubocop -D
-    - name: Test
+        bundle exec rubocop --display-cop-names
+    - name: RSpec
       run: |
         bundle exec rspec ./spec
