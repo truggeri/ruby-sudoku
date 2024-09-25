@@ -60,7 +60,7 @@ module Sudoku
       update_possibilities(row, col)
     end
 
-    def each(&_block)
+    def each(&)
       each_in_line do |r|
         each_in_line do |c|
           yield(new_puzzle[r][c])
