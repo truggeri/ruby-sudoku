@@ -48,7 +48,8 @@ GEM
     unicode-display_width (2.6.0)
 
 PLATFORMS
-  arm64-darwin-22
+  arm64-darwin-23
+  ruby
   x86_64-linux
 
 DEPENDENCIES
@@ -57,7 +58,7 @@ DEPENDENCIES
   simplecov
 
 RUBY VERSION
-   ruby 3.2.0p0
+   ruby 3.3.0p0
 
 BUNDLED WITH
-   2.4.19
+   2.5.3
